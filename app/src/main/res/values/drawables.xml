@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="ic_store">@drawable/ic_local_library</drawable>
+    <drawable name="ic_collections">@drawable/ic_library_books</drawable>
+    <drawable name="ic_collections_filled">@drawable/library_books_filled_24px</drawable>
+    <drawable name="ic_bookmarks">@drawable/ic_collection_bookmark</drawable>
+    <drawable name="ic_search">@drawable/search_24px</drawable>
+    <drawable name="ic_navigate_up">@drawable/arrow_back_24px</drawable>
+    <drawable name="ic_rating_start">@drawable/star_rate_24px</drawable>
+    <drawable name="ic_pwd">@drawable/key_24px</drawable>
+    <drawable name="ic_mail">@drawable/mail_24px</drawable>
+    <drawable name="ic_close">@drawable/close_24px</drawable>
+
+    <drawable name="sample_avatar">@drawable/account_circle_24px</drawable>
+
+    <drawable name="sample_book_cover">@drawable/ashley_whitlatch_36agnv29ss0_unsplash</drawable>
+</resources>

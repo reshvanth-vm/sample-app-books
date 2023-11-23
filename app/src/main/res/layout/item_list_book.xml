@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="book"
+            type="com.example.books.core.model.Book" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        style="?materialCardViewElevatedStyle"
+        android:transitionName="@{@string/collection_book_card_transition_name(book.id)}"
+        android:layout_marginBottom="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/cover_img_filter_view"
+                coilLoad="@{book.coverUrl}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/sample_book_cover"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1.41"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:round="12dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/rating_btn"
+                style="?materialIconButtonFilledTonalStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="4dp"
+                android:clickable="false"
+                android:paddingStart="12dp"
+                android:paddingEnd="6dp"
+                android:text="@{@string/rating(book.rating), default=4.5}"
+                android:textSize="15sp"
+                android:minHeight="0dp"
+                android:insetRight="0dp"
+                android:paddingVertical="4dp"
+                android:insetLeft="0dp"
+                android:minWidth="0dp"
+                app:icon="@drawable/ic_rating_start"
+                app:iconGravity="end"
+                app:iconPadding="3dp"
+                app:iconSize="15dp"
+                app:layout_constraintBottom_toTopOf="@id/author_txt_view"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@id/cover_img_filter_view" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/name_txt_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:text="@{book.name}"
+                android:textSize="24sp"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toTopOf="@id/rating_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cover_img_filter_view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/author_txt_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:desperateText="@{book.author}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/publisher_txt_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cover_img_filter_view" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/publisher_txt_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="15dp"
+                android:desperateText="@{book.publisher}"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cover_img_filter_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

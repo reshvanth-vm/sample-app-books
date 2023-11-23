@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.books.base.binding.adapter.ViewInset" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/items_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/item_store_book" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="6dp"
+                android:layout_height="wrap_content"
+                app:menu="@menu/menu_store_actions"
+                app:navigationContentDescription="@string/store_search_descr"
+                app:navigationIcon="@drawable/ic_search"
+                app:title="@string/store"
+                app:titleCentered="true" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--            <FrameLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:orientation="horizontal"-->
+        <!--                android:paddingHorizontal="16dp"-->
+        <!--                android:paddingBottom="8dp">-->
+
+        <!--                <com.google.android.material.textview.MaterialTextView-->
+        <!--                    android:id="@+id/title"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_gravity="center|start"-->
+        <!--                    android:text="@string/store"-->
+        <!--                    android:textSize="@dimen/screen_title_size" />-->
+
+        <!--                <com.google.android.material.button.MaterialButton-->
+        <!--                    android:id="@+id/search_btn"-->
+        <!--                    style="?materialIconButtonStyle"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_gravity="end|center"-->
+        <!--                    android:layout_marginEnd="52dp"-->
+        <!--                    app:icon="@drawable/ic_search" />-->
+
+        <!--                <androidx.constraintlayout.utils.widget.ImageFilterView-->
+        <!--                    android:id="@+id/avatar_img_filter_view"-->
+        <!--                    android:layout_width="@dimen/ic_touch_target_size"-->
+        <!--                    android:layout_height="@dimen/ic_touch_target_size"-->
+        <!--                    android:layout_gravity="end|center"-->
+        <!--                    app:roundPercent="1" />-->
+        <!--            </FrameLayout>-->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

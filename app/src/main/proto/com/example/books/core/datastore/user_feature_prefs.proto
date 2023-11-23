@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "com.example.books.core.datastore";
+option java_multiple_files = true;
+
+message UserFeaturePrefs {
+  int32 theme = 1;
+}

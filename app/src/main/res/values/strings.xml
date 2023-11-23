@@ -1,0 +1,64 @@
+<resources>
+
+    <string name="large_text">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non aliquam massa, eu rutrum nisl. Donec laoreet lorem sit amet nulla pellentesque, at bibendum quam semper. Cras ante tellus, mattis ac elit vel, semper imperdiet sapien. Vestibulum in sodales elit. Integer vitae dignissim tellus, sodales malesuada ante. Suspendisse ullamcorper a tellus vel tristique. Pellentesque dapibus sapien sit amet elit interdum, ut semper lorem interdum. Quisque vestibulum sapien at semper dictum. Vivamus fringilla, nulla vitae laoreet bibendum, velit justo facilisis eros, eu vehicula enim dui mattis felis. Donec non quam quis lectus mattis ultrices eget id ante. Vivamus scelerisque nibh eget convallis interdum. Suspendisse potenti. Aenean consequat turpis quis tincidunt consectetur.
+
+Suspendisse pretium justo at tristique ullamcorper. Ut dignissim tellus sed hendrerit venenatis. Curabitur dictum pellentesque arcu quis commodo. Fusce rhoncus magna vitae tortor fermentum, id aliquet mauris sagittis. Nullam in felis at nunc sodales venenatis sit amet non est. Sed euismod tortor bibendum efficitur scelerisque. Donec suscipit nibh dapibus purus sagittis, a condimentum augue porttitor. Cras eu egestas nisi, tempus cursus velit. Sed varius euismod rutrum. Duis a metus sit amet est congue pharetra. Sed ut leo a dolor facilisis vestibulum. Integer at hendrerit lacus, id rhoncus metus. Quisque arcu orci, vulputate eget eleifend ut, volutpat at elit. Donec vitae mi eu leo tristique posuere in nec nulla. Proin efficitur accumsan erat, blandit posuere nisi rutrum id.
+
+Pellentesque mattis enim lacus, quis laoreet diam fringilla sit amet. Quisque non est ante. Fusce velit quam, interdum sed elit sit amet, hendrerit finibus sem. Maecenas non felis sed elit varius vestibulum. Donec tristique ipsum arcu, sed elementum quam euismod id. Sed mauris lorem, fringilla id velit vel, rutrum gravida lectus. Sed felis felis, ornare vel turpis sed, congue ullamcorper massa. Nam ut porttitor turpis. Integer faucibus orci mi, a mollis urna semper nec.
+
+Sed dolor leo, porta id placerat egestas, rhoncus at sem. Proin sit amet scelerisque lorem. Aenean neque lectus, imperdiet eget diam non, scelerisque congue ipsum. Phasellus pretium nulla ut dui commodo varius. Pellentesque lorem quam, sollicitudin sit amet metus ut, aliquam congue ipsum. Mauris et tortor sed urna hendrerit laoreet. Maecenas sit amet libero et sapien tempor faucibus. Suspendisse potenti. Maecenas at tincidunt tellus, quis fringilla lacus.
+
+Sed quis mi id lectus varius convallis. Curabitur iaculis convallis sapien. Ut scelerisque dolor venenatis, congue erat eu, consequat leo. Nulla in blandit sem. Quisque quis porttitor tellus. Vivamus viverra tristique iaculis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi in ex sed dolor tincidunt tristique.
+    </string>
+    <string name="medium_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin non aliquam massa, eu rutrum nisl.</string>
+    <string name="sample_text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
+
+    <string name="integer_value">%d</string>
+    <string name="float_value">%f</string>
+
+    <string name="account_created_dialog_msg">"Account Created Successfully\nClick proceed to redirect to the main screen or cancel to go back to login screen."</string>
+
+    <string name="rating">%.2f</string>
+
+    <string name="app_name">Sample Books</string>
+    <string name="store">Store</string>
+    <string name="store_search_descr">Search Book Store</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="collection">Collection</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="navigate_up_btn_descr">Go back to previous page</string>
+    <string name="remove_from_collection">Remove from Collection</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="add_to_collection">Add to Collection</string>
+    <string name="published_date">Published Date</string>
+    <string name="pages">Pages</string>
+
+    <string name="go_to_store">Go to Store</string>
+    <string name="collections_empty_msg">): Empty Collections :(\n\nGo to store and collect your favourite books.</string>
+    <string name="bookmarks_empty_msg">): Empty Bookmarks :(</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login_pwd_hint">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create">Create</string>
+    <string name="store_search_hint">Search Store</string>
+
+    <string name="store_search_init_msg">Search books throughout the store…</string>
+    <string name="store_search_no_results_msg">Oops, no results found</string>
+
+
+    <string name="store_book_card_transition_name">Store Book Card item %d transition name</string>
+    <string name="store_book_cover_transition_name">Store Book Cover item %d transition name</string>
+    <string name="book_screen_transition_name">Book screen frame transition name</string>
+    <string name="book_screen_cover_transition_name">Book Screen Cover transition name</string>
+    <string name="collection_book_card_transition_name">Collection book card %d</string>
+    <string name="sample_email">reshvanth.vm@zohocorp.com</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="profile_screen_container_transition_name">Profile screen</string>
+    <string name="remove_from_bookmarks">Remove from Bookmarks</string>
+
+
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="book"
+            type="com.example.books.core.model.StoreBook" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="249dp"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginBottom="8dp"
+        android:transitionName="@{@string/store_book_card_transition_name(book.id)}">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/cover_img_filter_view"
+            coilLoad="@{book.coverUrl}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/sample_book_cover"
+            android:transitionName="@{@string/store_book_cover_transition_name(book.id)}"
+            app:round="14dp" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?materialIconButtonFilledTonalStyle"
+            visibility="@{book.isBookmarked}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:clickable="false"
+            app:icon="@drawable/bookmark_filled_24px" />
+
+        <com.google.android.material.button.MaterialButton
+            style="?materialIconButtonFilledTonalStyle"
+            visibility="@{book.isCollected}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="4dp"
+            android:clickable="false"
+            app:icon="@drawable/ic_collections_filled" />
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

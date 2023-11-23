@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_title_size">30sp</dimen>
+    <dimen name="ic_touch_target_size">48dp</dimen>
+    <dimen name="app_ic_size">24dp</dimen>
+
+    <dimen name="book_cover_corner_radius">12dp</dimen>
+
+    <dimen name="collection_loading_more_indicator_size">48dp</dimen>
+    <dimen name="_16dp">16dp</dimen>
+</resources>

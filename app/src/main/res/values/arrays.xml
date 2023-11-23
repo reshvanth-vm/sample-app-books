@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="temp_emails">
+        <item>reshvanth.vm@zohocorp.com</item>
+        <item>reshvanthvenkatesan@gmail.com</item>
+    </string-array>
+
+    <integer-array name="book_screen_container_transform_durations">
+        <item>@integer/book_screen_enter_duration</item>
+        <item>@integer/book_screen_pop_duration</item>
+    </integer-array>
+</resources>

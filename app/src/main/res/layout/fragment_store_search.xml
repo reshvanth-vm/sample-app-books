@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.example.books.feature.store.search.StoreSearchScreenStateEventListener" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/results_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            tools:listitem="@layout/item_grid_book_cover" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_circular_progress_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/msg_txt_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="45dp"
+            android:text="Search throughout the store..."
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/query_txt_input_layout"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/store_search_hint"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:endIconMode="clear_text"
+                app:startIconCheckable="true"
+                app:startIconContentDescription="@string/navigate_up_btn_descr"
+                app:startIconDrawable="@drawable/ic_navigate_up">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/query_input_edit_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:afterTextChanged="@{listener::afterSearchQueryTextChanged}"
+                    android:maxLength="100" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            <com.google.android.material.card.MaterialCardView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_scrollFlags="scroll">-->
+
+            <!--                <androidx.appcompat.widget.LinearLayoutCompat-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:orientation="horizontal">-->
+
+            <!--                    <com.google.android.material.button.MaterialButton-->
+            <!--                        android:id="@+id/search_btn"-->
+            <!--                        style="?materialIconButtonStyle"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_marginStart="4dp"-->
+            <!--                        android:layout_marginTop="8dp"-->
+            <!--                        android:layout_marginBottom="8dp"-->
+            <!--                        app:icon="@drawable/ic_search" />-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintVertical_bias="0"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintBottom_toTopOf="@id/search_actions_barrier"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+
+            <!--                    <com.google.android.material.textview.MaterialTextView-->
+            <!--                        android:id="@+id/search_txt_view"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_gravity="center_vertical"-->
+            <!--                        android:layout_marginHorizontal="4dp"-->
+            <!--                        android:layout_marginTop="15dp"-->
+            <!--                        android:layout_marginBottom="15dp"-->
+            <!--                        android:layout_weight="1"-->
+            <!--                        android:textSize="16sp" />-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintBottom_toTopOf="@id/search_actions_barrier"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintEnd_toStartOf="@id/clear_btn"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintStart_toEndOf="@id/search_btn"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+
+            <!--                    <com.google.android.material.button.MaterialButton-->
+            <!--                        android:id="@+id/clear_btn"-->
+            <!--                        style="?materialIconButtonStyle"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:layout_marginTop="8dp"-->
+            <!--                        android:layout_marginEnd="4dp"-->
+            <!--                        android:layout_marginBottom="8dp"-->
+            <!--                        app:icon="@drawable/ic_close" />-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintBottom_toTopOf="@id/search_actions_barrier"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:layout_constraintVertical_bias="0" />&ndash;&gt;-->
+
+            <!--                    &lt;!&ndash;                    <androidx.constraintlayout.widget.Barrier&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        android:id="@+id/search_actions_barrier"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        android:layout_width="0dp"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        android:layout_height="0dp"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:barrierDirection="bottom"&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                        app:constraint_referenced_ids="clear_btn,search_btn,search_txt_view" />&ndash;&gt;-->
+
+            <!--                </androidx.appcompat.widget.LinearLayoutCompat>-->
+            <!--            </com.google.android.material.card.MaterialCardView>-->
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

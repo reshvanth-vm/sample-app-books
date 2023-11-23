@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/store_menu_item"
+        android:icon="@drawable/ic_store"
+        android:title="@string/store" />
+
+    <item
+        android:id="@+id/collection_menu_item"
+        android:icon="@drawable/ic_collections"
+        android:title="@string/collection" />
+
+    <item
+        android:id="@+id/bookmarks_menu_item"
+        android:icon="@drawable/ic_bookmarks"
+        android:title="@string/bookmarks" />
+</menu>
