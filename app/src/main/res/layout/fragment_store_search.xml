@@ -22,6 +22,7 @@
             android:paddingHorizontal="16dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:spanCount="@integer/store_list_span_count"
             tools:listitem="@layout/item_grid_book_cover" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -49,10 +50,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/query_txt_input_layout"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/store_search_hint"
                 app:boxCornerRadiusBottomEnd="12dp"

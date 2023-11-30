@@ -2,6 +2,7 @@ package com.example.books.feature.store.search
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.*
 import androidx.core.view.*
 import androidx.fragment.*
@@ -10,9 +11,12 @@ import androidx.paging.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.books.R
+import com.example.books.base.exception.NonInflatedBindingException
 import com.example.books.core.model.BookCover
 import com.example.books.databinding.*
 import com.example.books.feature.book.BookFragment
+import com.example.books.feature.common.BaseFragment
+import com.example.books.feature.common.base.fragment.navigateToBookDetailScreen
 import com.example.books.feature.store.*
 import com.google.android.material.transition.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,51 +24,46 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class StoreSearchFragment : Fragment(),
+class StoreSearchFragment : BaseFragment(),
                             StoreSearchScreenStateEventListener,
-                            BookCoverPagingDataAdapter.Listener,
-                            OnApplyWindowInsetsListener {
+                            BookCoverPagingDataAdapter.Listener {
   companion object {
-    val TAG: String = StoreFragment::class.java.simpleName
+    const val TAG = "store_search_screen"
   }
 
+  override val backStackTag = TAG
+
   private var _binding: FragmentStoreSearchBinding? = null
-  private val binding get() = _binding!!
+  private val binding
+    get() = _binding ?: throw NonInflatedBindingException(this::class)
 
   private val resultsAdapter by lazy { BookCoverPagingDataAdapter(this) }
   private val viewModel by viewModels<StoreSearchViewModel>()
 
   private var isKeyboardVisible = false
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    enterTransition = MaterialFadeThrough()
-    exitTransition = MaterialFadeThrough()
-  }
+//  override fun onCreate(savedInstanceState: Bundle?) {
+//    super.onCreate(savedInstanceState)
+//    enterTransition = MaterialFadeThrough()
+////    exitTransition = MaterialFadeThrough()
+//  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?,
-  ): View {
-    return if (_binding != null) binding else {
-      FragmentStoreSearchBinding.inflate(inflater, container, false).also { _binding = it }.apply {
-        listener = this@StoreSearchFragment
-        queryTxtInputLayout.setStartIconOnClickListener { parentFragmentManager.popBackStack() }
-      }
-    }.root
-  }
+  ) = FragmentStoreSearchBinding.inflate(inflater, container, false).also { _binding = it }.root
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    postponeEnterTransition()
-    view.doOnPreDraw { startPostponedEnterTransition() }
+    super.onViewCreated(view, savedInstanceState)
 
-    binding.run {
-      queryInputEditTxt.requestFocus()
+    binding.apply {
+
+      listener = this@StoreSearchFragment
+      queryTxtInputLayout.setStartIconOnClickListener { parentFragmentManager.popBackStack() }
       showKeyboard(queryInputEditTxt)
+
       resultsRecyclerView.apply {
-        layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         adapter = resultsAdapter
         addOnScrollListener(object : RecyclerView.OnScrollListener() {
           override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -72,8 +71,10 @@ class StoreSearchFragment : Fragment(),
           }
         })
       }
+    }
 
-      launchInLifecycleRepeatingScope {
+    launchInLifecycleRepeatingScope {
+      binding.run {
         with(viewModel) {
           launch { queryInputEditTxt.setText(currentSearchQuery) }
           launch { searchFlow.collectLatest(resultsAdapter::submitData) }
@@ -91,7 +92,7 @@ class StoreSearchFragment : Fragment(),
 
   override fun onApplyWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
     isKeyboardVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-    return insets
+    return super.onApplyWindowInsets(v, insets)
   }
 
   override fun afterSearchQueryTextChanged(text: Editable?) {
@@ -104,14 +105,15 @@ class StoreSearchFragment : Fragment(),
   }
 
   override fun navigateToBookDetailScreen(view: View, item: BookCover) {
-    val (forwardDuration, reverseDuration) = resources.getIntArray(R.array.book_screen_container_transform_durations)
-    exitTransition = MaterialElevationScale(false).setDuration(forwardDuration.toLong())
-    reenterTransition = MaterialElevationScale(true).setDuration(reverseDuration.toLong())
+    if (isKeyboardVisible) {
+      hideKeyboard(binding.queryInputEditTxt)
+    }
 
     parentFragmentManager.commit {
       setReorderingAllowed(true)
       addSharedElement(view, resources.getString(R.string.book_screen_transition_name))
-      replace(R.id.frag_container_view, BookFragment(item.id), BookFragment.TAG)
+      hide(this@StoreSearchFragment)
+      add(R.id.frag_container_view, BookFragment(item.id), BookFragment.TAG)
       addToBackStack(TAG)
     }
   }

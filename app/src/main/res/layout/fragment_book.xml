@@ -21,133 +21,49 @@
 
     </data>
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorSurface"
+        android:fitsSystemWindows="true"
         android:transitionName="@string/book_screen_transition_name">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/container_constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="16dp"
-                android:updateMarginBySystemBarInsets="@{ViewInset.TOP}">
-                <!--                android:updateMarginBySystemBarInsets="@{ViewInset.TOP}">-->
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cover_img_filter_view"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintDimensionRatio="1:1.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent=".45">
-
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/sample_book_cover"
-                        bind:coilLoad="@{book.coverUrl}" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/name_txt_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@{book.name}"
-                    android:textAlignment="center"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toTopOf="@id/author_txt_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cover_img_filter_view"
-                    app:layout_constraintTop_toTopOf="@id/cover_img_filter_view" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/author_txt_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@{book.author}"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@id/publisher_txt_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cover_img_filter_view" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/publisher_txt_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@{book.publisher}"
-                    app:layout_constraintBottom_toTopOf="@id/header_barrier"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/cover_img_filter_view" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/header_barrier"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:barrierDirection="bottom"
-                    app:barrierMargin="15dp"
-                    app:constraint_referenced_ids="cover_img_filter_view,name_txt_view,author_txt_view,publisher_txt_view" />
-
-<!--                &lt;!&ndash;                    android:onClick="@{(v) -> actionListener.onAction.invoke(Action.RemoveFromCollection.INSTANCE)}"&ndash;&gt;-->
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/remove_from_bookmark_btn"-->
-<!--                    style="?materialButtonOutlinedStyle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/remove_from_bookmarks"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/header_barrier" />-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/remove_from_collection_btn"-->
-<!--                    style="?materialButtonOutlinedStyle"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:onClick="@{(v) -> actionListener.onAction.invoke(Action.RemoveFromCollection.INSTANCE)}"-->
-<!--                    android:text="@string/remove_from_collection"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/header_barrier" />-->
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/bookmark_btn"
-                    style="?materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    app:layout_constraintBottom_toTopOf="@id/actions_barrier"
                     android:onClick="@{(v) -> actionListener.onAction.invoke(Action.ToggleBookmark.INSTANCE)}"
                     android:text="@string/bookmark"
+                    app:icon="@drawable/ic_bookmark"
+                    app:layout_constraintBottom_toTopOf="@id/actions_barrier"
                     app:layout_constraintEnd_toStartOf="@id/collect_btn"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/header_barrier" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/collect_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@id/actions_barrier"
                     android:layout_marginStart="4dp"
                     android:onClick="@{(v) -> actionListener.onAction.invoke(Action.ToggleCollect.INSTANCE)}"
                     android:text="@string/add_to_collection"
+                    app:icon="@drawable/ic_collections"
+                    app:layout_constraintBottom_toTopOf="@id/actions_barrier"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/bookmark_btn"
-                    app:layout_constraintTop_toBottomOf="@id/header_barrier" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/positive_actions_group"
@@ -248,16 +164,43 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/back_btn"
-            style="?materialIconButtonFilledTonalStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/navigate_up_btn_descr"
-            android:nestedScrollingEnabled="false"
-            android:updateMarginBySystemBarInsets="@{ViewInset.TOP}"
-            app:icon="@drawable/ic_navigate_up" />
-    </FrameLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:expandedTitleTextColor="@android:color/white"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:maxLines="3">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/sample_book_cover"
+                    android:scaleType="centerCrop"
+                    bind:coilLoad="@{book.coverUrl}" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:background="@android:color/transparent"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_navigate_up"
+                    app:navigationIconTint="@android:color/white"
+                    app:subtitle="@{book.author}"
+                    app:subtitleCentered="true"
+                    app:title="@{book.name}"
+                    app:titleCentered="true" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

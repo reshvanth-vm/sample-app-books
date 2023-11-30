@@ -30,8 +30,9 @@ class StoreViewModel @Inject constructor(
   companion object {
     private val pagingConfig = PagingConfig(
       pageSize = 10,
-      prefetchDistance = 10,
-      enablePlaceholders = false,
+      initialLoadSize = 10,
+      prefetchDistance = 0,
+      enablePlaceholders = true,
 //      maxSize = 50,
 //      jumpThreshold = 20,
     )

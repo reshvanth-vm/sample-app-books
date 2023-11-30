@@ -1,3 +1,5 @@
+import com.android.build.api.variant.VariantSelector
+import dagger.hilt.android.plugin.util.capitalize
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -124,5 +126,6 @@ dependencies {
 
   implementation(libs.androidx.dataStore.core)
   implementation(libs.protobuf.kotlin.lite)
+  implementation(libs.kotlin.reflect)
 
 }

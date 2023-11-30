@@ -13,16 +13,28 @@ class ViewInset(var left: Int, var top: Int, var right: Int, var bottom: Int) {
 
   fun obtainInsets(insets: Insets, required: Int) {
     if (required.and(LEFT) == LEFT) {
-      left += insets.left
+      left = insets.left
     }
     if (required.and(TOP) == TOP) {
-      top += insets.top
+      top = insets.top
     }
     if (required.and(RIGHT) == RIGHT) {
-      right += insets.right
+      right = insets.right
     }
     if (required.and(BOTTOM) == BOTTOM) {
-      bottom += insets.bottom
+      bottom = insets.bottom
     }
+//    if (required.and(LEFT) == LEFT) {
+//      left += insets.left
+//    }
+//    if (required.and(TOP) == TOP) {
+//      top += insets.top
+//    }
+//    if (required.and(RIGHT) == RIGHT) {
+//      right += insets.right
+//    }
+//    if (required.and(BOTTOM) == BOTTOM) {
+//      bottom += insets.bottom
+//    }
   }
 }

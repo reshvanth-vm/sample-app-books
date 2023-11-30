@@ -14,8 +14,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="249dp"
-        android:layout_marginHorizontal="4dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="4dp"
         android:transitionName="@{@string/store_book_card_transition_name(book.id)}">
 
         <androidx.constraintlayout.utils.widget.ImageFilterView

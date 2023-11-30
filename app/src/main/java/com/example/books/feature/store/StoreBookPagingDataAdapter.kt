@@ -10,7 +10,7 @@ class StoreBookPagingDataAdapter(
   private val listener: StoreBookPagingDataAdapter.Listener,
 ) : PagingDataAdapter<StoreBook, StoreBookPagingDataAdapter.ViewHolder>(DiffCallback) {
 
-  fun interface Listener {
+  interface Listener {
     fun navigateToBookDetailScreen(view: View, item: StoreBook)
   }
 

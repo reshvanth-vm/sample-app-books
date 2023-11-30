@@ -7,7 +7,7 @@
 
         <variable
             name="listener"
-            type="com.example.books.feature.login.LoginScreenEventListener" />
+            type="com.example.books.feature.user.login.LoginScreenEventListener" />
     </data>
 
     <FrameLayout
@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:transitionName="@string/login_card_container_transition_name"
             android:checkable="false"
             android:clickable="false"
             app:contentPadding="16dp">

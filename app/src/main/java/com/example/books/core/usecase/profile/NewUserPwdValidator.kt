@@ -5,8 +5,10 @@ fun interface NewUserPwdValidator {
 
   enum class InvalidReason {
     BLANK,
-    LONG,
-    SHORT,
+    // 2 upper, 2 lower, 2 digits, 2 special
+    NOT_MATCHED_CONDITION,
+//    LONG,
+//    SHORT,
   }
 }
 

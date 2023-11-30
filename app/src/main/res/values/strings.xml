@@ -55,10 +55,21 @@ Sed quis mi id lectus varius convallis. Curabitur iaculis convallis sapien. Ut s
     <string name="book_screen_transition_name">Book screen frame transition name</string>
     <string name="book_screen_cover_transition_name">Book Screen Cover transition name</string>
     <string name="collection_book_card_transition_name">Collection book card %d</string>
-    <string name="sample_email">reshvanth.vm@zohocorp.com</string>
+    <string name="login_card_container_transition_name">Login Card transition name</string>
+
+
+    <string name="sample_email">a@b.c</string>
     <string name="sign_out">Sign Out</string>
     <string name="profile_screen_container_transition_name">Profile screen</string>
     <string name="remove_from_bookmarks">Remove from Bookmarks</string>
 
+    <string name="recycler_view_linear_layout_manager">androidx.recyclerview.widget.LinearLayoutManager</string>
+    <string name="recycler_view_grid_layout_manager">androidx.recyclerview.widget.GridLayoutManager</string>
+
+    <string name="user_book_list_layout_manager">@string/recycler_view_linear_layout_manager</string>
+
+    <string name="collection_list_layout_manager">@string/user_book_list_layout_manager</string>
+    <string name="bookmarks_list_layout_manager">@string/user_book_list_layout_manager</string>
+    <string name="confirm_password">Confirm Password</string>
 
 </resources>

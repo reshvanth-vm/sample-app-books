@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_book_list_layout_manager">@string/recycler_view_grid_layout_manager</string>
+</resources>

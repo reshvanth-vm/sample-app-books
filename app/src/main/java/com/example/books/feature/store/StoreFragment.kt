@@ -2,73 +2,69 @@ package com.example.books.feature.store
 
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.doOnPreDraw
+import androidx.core.view.*
+import androidx.core.view.insets.systemBarInsets
 import androidx.fragment.app.*
 import androidx.fragment.launchInLifecycleRepeatingScope
-import androidx.paging.CombinedLoadStates
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.books.R
-import com.example.books.core.model.*
+import com.example.books.base.exception.NonInflatedBindingException
+import com.example.books.core.model.StoreBook
 import com.example.books.databinding.FragmentStoreBinding
-import com.example.books.feature.book.BookFragment
-import com.example.books.feature.profile.ProfileFragment
+import com.example.books.feature.common.TopLevelDestinationFragment
+import com.example.books.feature.common.base.fragment.navigateToBookDetailScreen
 import com.example.books.feature.store.search.StoreSearchFragment
-import com.google.android.material.transition.*
+import com.example.books.feature.user.profile.ProfileFragment
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class StoreFragment : Fragment(),
-                      BookCoverPagingDataAdapter.Listener,
+class StoreFragment : TopLevelDestinationFragment(),
                       Toolbar.OnMenuItemClickListener,
-                      StoreBookPagingDataAdapter.Listener,
-                      StoreScreenEventHandler {
+                      StoreBookPagingDataAdapter.Listener {
 
   companion object {
-    val TAG: String = StoreFragment::class.java.simpleName
+    const val TAG = "store_screen"
   }
 
+  override val backStackTag = TAG
+
   private var _binding: FragmentStoreBinding? = null
-  private val binding get() = _binding!!
-  private val storeBooksAdapter by lazy { BookCoverPagingDataAdapter(this) }
-  private val userStoreBooksAdapter by lazy { StoreBookPagingDataAdapter(this) }
+  private val binding
+    get() = _binding ?: throw NonInflatedBindingException(this::class)
+
+  private val userStoreBooksAdapter by lazy {
+    StoreBookPagingDataAdapter(this)
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?,
-  ): View {
-    return if (_binding != null) binding else {
-      FragmentStoreBinding
-        .inflate(inflater, container, false)
-        .also { _binding = it }
-        .apply {
-          toolBar.apply {
-            setNavigationOnClickListener(::navigateToStoreSearchScreen)
-            setOnMenuItemClickListener(this@StoreFragment)
-          }
-        }
-    }.root
-  }
+  ) = FragmentStoreBinding.inflate(inflater, container, false).also { _binding = it }.root
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    postponeEnterTransition()
-    view.doOnPreDraw { startPostponedEnterTransition() }
+    super.onViewCreated(view, savedInstanceState)
 
-    binding.itemsRecyclerView.apply {
-      layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-//      adapter = storeBooksAdapter
-      adapter = userStoreBooksAdapter
+    binding.apply {
+      itemsRecyclerView.adapter = userStoreBooksAdapter.withLoadStateHeaderAndFooter(
+        header = StoreBooksLoadStateAdapter(),
+        footer = StoreBooksLoadStateAdapter(),
+      )
+
+      toolBar.apply {
+        setOnMenuItemClickListener(this@StoreFragment)
+        setNavigationOnClickListener {
+          navigateToSearchOrProfileScreen(StoreSearchFragment(), StoreSearchFragment.TAG)
+        }
+      }
     }
 
     val viewModel by activityViewModels<StoreViewModel>()
     launchInLifecycleRepeatingScope {
-//      launch { viewModel.books.collectLatest(storeBooksAdapter::submitData) }
-//      launch { storeBooksAdapter.loadStateFlow.collectLatest(binding::onItemsLoadStates) }
-      launch { viewModel.userBooks.collectLatest(userStoreBooksAdapter::submitData) }
-      launch { userStoreBooksAdapter.loadStateFlow.collectLatest(binding::onItemsLoadStates) }
+      viewModel.userBooks.collectLatest(userStoreBooksAdapter::submitData)
     }
   }
 
@@ -78,88 +74,36 @@ class StoreFragment : Fragment(),
   }
 
   override fun onMenuItemClick(item: MenuItem?): Boolean {
-    when (item?.itemId) {
-      R.id.profile_menu_item -> navigateToProfileScreen(item)
-      else                   -> return false
+    if (item?.itemId == R.id.profile_menu_item) {
+      navigateToSearchOrProfileScreen(ProfileFragment(), ProfileFragment.TAG)
     }
+
     return true
   }
 
-  override fun navigateToStoreSearchScreen(view: View) {
-    navigateToSearchOrProfileScreen(StoreSearchFragment(), StoreSearchFragment.TAG)
-  }
-
-  override fun navigateToProfileScreen(menuItem: MenuItem) {
-    navigateToSearchOrProfileScreen(ProfileFragment(), ProfileFragment.TAG)
-  }
-
   override fun navigateToBookDetailScreen(view: View, item: StoreBook) {
-    navigateToBookDetailScreen(view, item as BookCover)
+    navigateToBookDetailScreen(view, item.id)
   }
 
-  override fun navigateToBookDetailScreen(view: View, item: BookCover) {
-    val (forwardDuration, reverseDuration) = resources.getIntArray(R.array.book_screen_container_transform_durations)
-    exitTransition = MaterialElevationScale(false).setDuration(forwardDuration.toLong())
-    reenterTransition = MaterialElevationScale(true).setDuration(reverseDuration.toLong())
+  override fun onApplyWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
+    val sysBarInsets = insets.systemBarInsets
 
-    parentFragmentManager.commit {
-      setReorderingAllowed(true)
-      addSharedElement(view, resources.getString(R.string.book_screen_transition_name))
-      replace(R.id.frag_container_view, BookFragment(item.id), BookFragment.TAG)
-      addToBackStack(TAG)
+    binding.toolBar.updateLayoutParams<MarginLayoutParams> {
+      updateMargins(top = sysBarInsets.top)
     }
+
+    return super.onApplyWindowInsets(v, insets)
   }
 
-}
-
-private fun FragmentStoreBinding.onItemsLoadStates(states: CombinedLoadStates) {
-  // todo
 }
 
 private fun StoreFragment.navigateToSearchOrProfileScreen(fragment: Fragment, tag: String) {
-  exitTransition = MaterialFadeThrough()
   reenterTransition = MaterialFadeThrough()
 
   parentFragmentManager.commit {
     setReorderingAllowed(true)
-    replace(R.id.frag_container_view, fragment, tag)
+    hide(this@navigateToSearchOrProfileScreen)
+    add(R.id.frag_container_view, fragment, tag)
     addToBackStack(StoreFragment.TAG)
   }
 }
-
-
-//val Resources.storeBookListDetailInAndOutDuration
-//  get() = arrayOf(
-//    R.integer.store_book_list_detail_forward_motion_duration,
-//    R.integer.store_book_list_detail_reverse_motion_duration
-//  ).map { getInteger(it).toLong() }
-//
-//fun BookFragment.applySharedTransitions(
-//  context: Context,
-//  drawingViewId: Int,
-//  forwardDuration: Long,
-//  reverseDuration: Long,
-//) = apply {
-//  sharedElementEnterTransition = MaterialContainerTransform(context, true).apply {
-//    this.drawingViewId = drawingViewId
-//    duration = forwardDuration
-//  }
-//  sharedElementReturnTransition = MaterialContainerTransform(context, false).apply {
-//    this.drawingViewId = drawingViewId
-//    duration = reverseDuration
-//  }
-//}
-//
-//fun Fragment.applyTransitionsForBookItemDetailNavigation(
-//  forwardDuration: Long,
-//  reverseDuration: Long,
-//) {
-//  exitTransition = MaterialElevationScale(false).apply {
-//    duration = forwardDuration
-//  }
-//
-//  reenterTransition = MaterialElevationScale(true).apply {
-//    duration = reverseDuration
-//  }
-//}
-//

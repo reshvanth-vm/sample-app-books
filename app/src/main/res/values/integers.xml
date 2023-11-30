@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="store_book_list_detail_forward_motion_duration">600</integer>
-    <integer name="store_book_list_detail_reverse_motion_duration">400</integer>
-    <integer name="collection_book_list_detail_forward_motion_duration">600</integer>
-    <integer name="collection_book_list_detail_reverse_motion_duration">400</integer>
-    <integer name="bookmark_book_list_detail_forward_motion_duration">600</integer>
-    <integer name="bookmark_book_list_detail_reverse_motion_duration">400</integer>
-
-    <integer name="book_screen_enter_duration">500</integer>
-    <integer name="book_screen_pop_duration">400</integer>
+    <integer name="store_list_span_count">2</integer>
+    <integer name="user_book_list_span_count">1</integer>
+    <integer name="collection_list_span_count">@integer/user_book_list_span_count</integer>
+    <integer name="bookmarks_list_span_count">@integer/user_book_list_span_count</integer>
 </resources>

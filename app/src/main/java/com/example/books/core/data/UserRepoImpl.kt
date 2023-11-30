@@ -116,8 +116,9 @@ class UserRepoImpl @Inject constructor(
 
   override suspend fun validateUserEmail(email: CharSequence?): NewUserEmailValidator.InvalidReason? {
     if (email.isNullOrBlank()) return NewUserEmailValidator.InvalidReason.BLANK
+    val matcher = android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+    if (matcher.matches().not()) return NewUserEmailValidator.InvalidReason.ERROR
     if (isUserEmailExists(email = email.toString())) return NewUserEmailValidator.InvalidReason.EXIST
-    // todo error
     return null
   }
 
@@ -129,8 +130,17 @@ class UserRepoImpl @Inject constructor(
 
   override suspend fun validateNewPwd(pwd: CharSequence?): NewUserPwdValidator.InvalidReason? {
     if (pwd.isNullOrBlank()) return NewUserPwdValidator.InvalidReason.BLANK
-    if (pwd.length < 4) return NewUserPwdValidator.InvalidReason.SHORT
-    if (pwd.length > 8) return NewUserPwdValidator.InvalidReason.LONG
+//    if (pwd.length < 4) return NewUserPwdValidator.InvalidReason.SHORT
+//    if (pwd.length > 8) return NewUserPwdValidator.InvalidReason.LONG
+    val isValid = setOf(
+      Char::isDigit,
+      Char::isUpperCase,
+      Char::isLowerCase
+    ).all { pwd.count(it) == 2 }
+
+    val specials = pwd.count { it in "`~!@#$%^&*()_-+={}[]\\|'\";:,<.>/?" } == 2
+    if (isValid.not() || specials.not()) return NewUserPwdValidator.InvalidReason.NOT_MATCHED_CONDITION
+
     return null
   }
 

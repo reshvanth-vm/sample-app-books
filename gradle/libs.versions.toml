@@ -9,7 +9,7 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.7.0-alpha03"
 kotlinxDatetime = "0.4.1"
-material3 = "1.11.0-beta01"
+material3 = "1.11.0-rc01"
 paging = "3.3.0-alpha02"
 room = "2.6.0"
 ksp = "1.9.20-1.0.14"
@@ -36,6 +36,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material3" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }

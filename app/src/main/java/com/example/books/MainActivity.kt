@@ -2,166 +2,246 @@ package com.example.books
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
+import android.view.*
 import androidx.activity.viewModels
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.Insets
 import androidx.core.view.*
+import androidx.core.view.insets.systemBarInsets
 import androidx.fragment.app.*
-import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
 import androidx.lifecycle.*
+import com.example.books.base.exception.NonInflatedBindingException
 import com.example.books.databinding.ActivityMainBinding
-import com.example.books.feature.bookmarks.BookmarksFragment
-import com.example.books.feature.collection.CollectionsFragment
-import com.example.books.feature.login.LoginFragment
+import com.example.books.feature.common.TopLevelDestinationFragment
 import com.example.books.feature.store.StoreFragment
+import com.example.books.feature.user.books.bookmarks.BookmarksFragment
+import com.example.books.feature.user.books.collection.CollectionsFragment
+import com.example.books.feature.user.login.LoginFragment
 import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import com.example.books.R.id.frag_container_view as fragmentContainerViewId
+import kotlinx.coroutines.flow.collectLatest
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),
-                     NavigationBarView.OnItemSelectedListener,
-                     NavigationBarView.OnItemReselectedListener {
+                     FragmentOnAttachListener,
+                     FragmentManager.OnBackStackChangedListener,
+                     NavigationBarView.OnItemSelectedListener {
 
   companion object {
-    val TAG: String = MainActivity::class.java.simpleName
-    val TopLvlDestTags = arrayOf(StoreFragment.TAG, CollectionsFragment.TAG)
+    const val TAG = "activity_main_screen"
+    private const val NAV_ID_KEY = "top_lvl_nav_id_key"
+    private const val NAV_VIEW_VISIBILITY_KEY = "is_nav_view_visible"
   }
 
+  // members
   private var _binding: ActivityMainBinding? = null
-  private val binding get() = _binding!!
+  private val binding
+    get() = _binding ?: throw NonInflatedBindingException(this::class)
+
+  private val navHelper = NavHelper
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     WindowCompat.setDecorFitsSystemWindows(window, false)
 
-    _binding = ActivityMainBinding.inflate(layoutInflater).also {
-      setContentView(it.root)
-      it.bottomNavView.apply {
-        setOnItemSelectedListener(this@MainActivity)
-        setOnItemReselectedListener(this@MainActivity)
+    supportFragmentManager.apply {
+      addFragmentOnAttachListener(this@MainActivity)
+      addOnBackStackChangedListener(this@MainActivity)
+    }
+
+    _binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    binding.navView.apply {
+      setOnItemSelectedListener(this@MainActivity)
+      savedInstanceState?.apply {
+        selectedItemId = getInt(NAV_ID_KEY)
+        isVisible = getBoolean(NAV_VIEW_VISIBILITY_KEY)
       }
     }
 
     val viewModel by viewModels<MainViewModel>()
 
-    if (savedInstanceState == null) {
-      supportFragmentManager.apply {
-        addFragmentOnAttachListener { _, fragment -> binding.onAttachNewFragment(fragment) }
-        commit {
-          setReorderingAllowed(true)
-          val isLoggedIn = runBlocking(Dispatchers.IO) { viewModel.isUserLoggedInFlow.first() }
-          binding.bottomNavView.isVisible = isLoggedIn
-          onLoginInChanged(isLoggedIn)
-        }
-      }
-    }
+    val isFirstAppCreation = savedInstanceState == null
+    var skipped = false
 
-    var firstLoad = true
     lifecycleScope.launch {
-      repeatOnLifecycle(Lifecycle.State.STARTED) {
-        viewModel.isUserLoggedInFlow.collectLatest { isLoggedIn ->
-          binding.bottomNavView.isVisible = isLoggedIn
-          if (firstLoad) {
-            firstLoad = false
-            return@collectLatest
+      repeatOnLifecycle(Lifecycle.State.CREATED) {
+        launch(Dispatchers.IO) {
+          while (true) {
+            val fragments = withContext(Dispatchers.Main) { supportFragmentManager.fragments }
+            Log.e(TAG, "$fragments")
+            delay(3000)
           }
-          with(supportFragmentManager) {
-            val popTag = if (isLoggedIn) LoginFragment.TAG else binding.selectedTopNavTag
-            popBackStack(popTag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            commit {
+        }
+
+        launch {
+          viewModel.isUserLoggedInFlow.collectLatest { isLoggedIn ->
+            if (isFirstAppCreation.not() && skipped.not()) {
+              skipped = true
+              return@collectLatest
+            }
+
+            binding.navView.isVisible = isLoggedIn
+
+            supportFragmentManager.commit {
               setReorderingAllowed(true)
-              onLoginInChanged(isLoggedIn)
+              supportFragmentManager.fragments.forEach(::remove)
+
+              if (isLoggedIn) {
+                add(R.id.frag_container_view, StoreFragment(), StoreFragment.TAG)
+              } else {
+                add(R.id.frag_container_view, LoginFragment(), LoginFragment.TAG)
+              }
             }
           }
         }
       }
     }
+  }
 
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putInt(NAV_ID_KEY, binding.navView.selectedItemId)
+    outState.putBoolean(NAV_VIEW_VISIBILITY_KEY, binding.navView.isVisible)
   }
 
   override fun onDestroy() {
-    _binding = null
     super.onDestroy()
+    _binding = null
+  }
+
+  override fun onBackStackChanged() {
+    Log.e(TAG, "onBackStackChanged ${supportFragmentManager.fragments}")
+
+    val navView = binding.navView
+
+//    val toggleNavViewVisibility = isShowingAnyTopLvlDest != navView.isVisible
+//    if (toggleNavViewVisibility) {
+//      val (inset, updater) = binding.bottomNavView?.let {
+//        sysBarInsets.bottom to { animatedValue: Int -> it.minimumHeight = animatedValue }
+//      } ?: binding.navRailView?.let {
+//        sysBarInsets.left to { animatedValue: Int -> it.minimumWidth = animatedValue }
+//      } ?: throw RuntimeException()
+//
+//      Log.e(TAG, "inset $inset")
+//      val mainVal = resources.getDimension(R.dimen.nav_view_size).toInt() + inset
+//      val (from, to) = (if (isShowingAnyTopLvlDest) 0 to mainVal - inset else mainVal to 0)
+//
+//      Log.e(TAG, "from $from, to $to")
+//      ValueAnimator.ofInt(from, to).setDuration(300).apply {
+//        doOnStart {
+//          if (isShowingAnyTopLvlDest) {
+//            navView.isVisible = true
+//          } else {
+//            doOnEnd { navView.isVisible = false }
+//          }
+//        }
+//
+//        addUpdateListener { updater(it.animatedValue as Int) }
+//      }.start()
+//    }
+
+    navView.isVisible = isAnyFragmentPresentOtherThanTopLvl.not()
   }
 
   override fun onNavigationItemSelected(item: MenuItem): Boolean {
-    val needPop = supportFragmentManager.fragments.lastOrNull()?.tag !in TopLvlDestTags
+    if (isAnyFragmentPresentOtherThanTopLvl) return true
 
-    val fragment = when (item.itemId) {
-      R.id.store_menu_item      -> StoreFragment()
-      R.id.collection_menu_item -> CollectionsFragment()
-      R.id.bookmarks_menu_item  -> BookmarksFragment()
-      else                      -> throw RuntimeException()
-    }
+    val navId = item.itemId
+    val tag = navHelper.getFragmentTagByNavId(navId)
 
-    if (needPop) {
-      supportFragmentManager.popBackStack(
-        binding.selectedTopNavTag,
-        FragmentManager.POP_BACK_STACK_INCLUSIVE
-      )
-    }
+    val presentFragments = supportFragmentManager.fragments
+    val currentTopLvlFragment = presentFragments.find { navHelper.isTagATopLvlFragmentTag(it.tag) && it.isHidden.not() }
 
-    supportFragmentManager.fragments.lastOrNull()?.exitTransition = MaterialFadeThrough()
-    fragment.enterTransition = MaterialFadeThrough()
+    // navigating to the same top lvl navigation
+    if (tag == currentTopLvlFragment?.tag) return true
+
+    val neededFragmentInPresentFragments = presentFragments.find { it.tag == tag }
+
+    Log.e(
+      TAG, """
+      ##############
+      req tag $tag
+      presentFrags $presentFragments
+      curTopLvl $currentTopLvlFragment
+      neededFRagINPresent $neededFragmentInPresentFragments
+      ##############
+    """.trimIndent()
+    )
+
     supportFragmentManager.commit {
       setReorderingAllowed(true)
-      replace(fragmentContainerViewId, fragment, item.tag)
+      currentTopLvlFragment?.let(::hide)
+
+      if (neededFragmentInPresentFragments != null) {
+        show(neededFragmentInPresentFragments)
+      } else {
+        val neededFragment = navHelper.getFragmentByTag(tag)
+        add(R.id.frag_container_view, neededFragment, tag)
+      }
     }
 
     return true
   }
 
-  override fun onNavigationItemReselected(item: MenuItem) {
-    supportFragmentManager.popBackStack(item.tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+  override fun onAttachFragment(fragmentManager: FragmentManager, fragment: Fragment) {
+    Log.e(TAG, "onAttachFragment $fragment")
+    if (fragment.isHidden.not()) {
+      val navId = navHelper.getFragmentNavIdByTag(fragment.tag)
+      binding.navView.apply {
+        if (navId != null && selectedItemId != navId) {
+          selectedItemId = navId
+        }
+      }
+    }
   }
-
-  private val MenuItem.tag: String
-    get() = getTopNavTagFromSelectedMenuId(itemId)
 
 }
 
-private val ActivityMainBinding.selectedTopNavTag
-  get() = getTopNavTagFromSelectedMenuId(bottomNavView.selectedItemId)
+private val ActivityMainBinding.navView
+  get() = bottomNavView ?: navRailView ?: throw RuntimeException()
 
-private fun getTopNavTagFromSelectedMenuId(menuId: Int): String {
-  return when (menuId) {
+
+private object NavHelper {
+
+  fun getFragmentTagByNavId(@IdRes navId: Int) = when (navId) {
     R.id.store_menu_item      -> StoreFragment.TAG
     R.id.collection_menu_item -> CollectionsFragment.TAG
     R.id.bookmarks_menu_item  -> BookmarksFragment.TAG
-    else                      -> throw RuntimeException()
-  }
-}
-
-
-private fun ActivityMainBinding.onAttachNewFragment(fragment: Fragment) {
-  val menuId = when (fragment) {
-    is StoreFragment       -> R.id.store_menu_item
-    is CollectionsFragment -> R.id.collection_menu_item
-    is BookmarksFragment   -> R.id.bookmarks_menu_item
-    else                   -> null
+    else                      -> throw NotImplementedError("nav menuId '$navId' is unknown")
   }
 
-//  Log.e(MainActivity.TAG, "fragment $fragment")
-//  bottomNavView.isVisible = menuId != null
-  bottomNavView.selectedItemId = menuId ?: return
+  fun getFragmentByTag(tag: String): TopLevelDestinationFragment = when (tag) {
+    StoreFragment.TAG       -> ::StoreFragment
+    CollectionsFragment.TAG -> ::CollectionsFragment
+    BookmarksFragment.TAG   -> ::BookmarksFragment
+    else                    -> throw NotImplementedError("top lvl fragment tag '$tag' is unknown")
+  }.invoke()
+
+  fun getFragmentByNavId(@IdRes navId: Int): TopLevelDestinationFragment {
+    val tag = getFragmentTagByNavId(navId)
+    return getFragmentByTag(tag)
+  }
+
+  fun isTagATopLvlFragmentTag(tag: String?): Boolean {
+    return tag in setOf(StoreFragment.TAG, CollectionsFragment.TAG, BookmarksFragment.TAG)
+  }
+
+  fun getFragmentNavIdByTag(tag: String?) = when (tag) {
+    StoreFragment.TAG       -> R.id.store_menu_item
+    CollectionsFragment.TAG -> R.id.collection_menu_item
+    BookmarksFragment.TAG   -> R.id.bookmarks_menu_item
+    else                    -> null
+  }
+
 }
 
-private fun FragmentTransaction.onLoginInChanged(isLoggedIn: Boolean) {
-//  val (fragmentClass, replaceTag) = if (isLoggedIn) {
-//    StoreFragment::class to StoreFragment.TAG
-//  } else {
-//    LoginFragment::class to LoginFragment.TAG
-//  }
-  val (fragment, replaceTag) = if (isLoggedIn) {
-    StoreFragment() to StoreFragment.TAG
-  } else {
-    LoginFragment() to LoginFragment.TAG
+private val MainActivity.isAnyFragmentPresentOtherThanTopLvl
+  get() = supportFragmentManager.fragments.any {
+    NavHelper.isTagATopLvlFragmentTag(it.tag).not()
   }
-  fragment.enterTransition = MaterialFadeThrough()
-  replace(fragmentContainerViewId, fragment, replaceTag)
-}
+

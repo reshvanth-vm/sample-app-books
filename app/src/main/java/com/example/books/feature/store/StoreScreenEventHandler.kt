@@ -4,5 +4,5 @@ import android.view.*
 
 interface StoreScreenEventHandler {
   fun navigateToStoreSearchScreen(view: View)
-  fun navigateToProfileScreen(menuItem: MenuItem)
+  fun navigateToProfileScreen(btnView: View?)
 }

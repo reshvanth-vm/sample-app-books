@@ -11,6 +11,10 @@
     <drawable name="ic_mail">@drawable/mail_24px</drawable>
     <drawable name="ic_close">@drawable/close_24px</drawable>
 
+    <drawable name="ic_remove_from_bookmark">@drawable/bookmark_remove_24px</drawable>
+    <drawable name="ic_remove_from_collection">@drawable/shadow_minus_24px</drawable>
+    <drawable name="ic_add_to_collection">@drawable/shadow_add_24px</drawable>
+
     <drawable name="sample_avatar">@drawable/account_circle_24px</drawable>
 
     <drawable name="sample_book_cover">@drawable/ashley_whitlatch_36agnv29ss0_unsplash</drawable>
