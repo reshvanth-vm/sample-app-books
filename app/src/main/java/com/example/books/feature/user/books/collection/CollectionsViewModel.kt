@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CollectionsViewModel @Inject constructor(
-  private val currentUserCollectionBooksFlow: CurrentUserCollectionFlow,
+  private val currentUserCollectionBooksFlow: com.example.books.core.domain.collection.CurrentUserCollectionFlow,
 ) : UserBookListViewModel() {
 
-  override fun getBooksFlow(config: PagingConfig): Flow<PagingData<Book>> {
+  override fun getBooksFlow(config: PagingConfig): Flow<PagingData<com.example.books.core.model.Book>> {
     return currentUserCollectionBooksFlow(config)
   }
 

@@ -10,7 +10,7 @@ data class NewUserCredentialsParcel(
   override val email: String,
   override val pwd: String,
   override val profileUri: String?,
-) : NewUserCredentials,
+) : com.example.books.core.model.NewUserCredentials,
     Parcelable {
   companion object {
     val KEY: String = NewUserCredentialsParcel::class.java.simpleName

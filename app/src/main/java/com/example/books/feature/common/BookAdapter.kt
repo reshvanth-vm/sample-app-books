@@ -8,20 +8,20 @@ import com.example.books.databinding.ItemListBookBinding
 
 class BookAdapter(
   private val listener: Listener,
-) : PagingDataAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback) {
+) : PagingDataAdapter<com.example.books.core.model.Book, BookAdapter.ViewHolder>(BookDiffCallback) {
 
   fun interface Listener {
-    fun navigateToBookDetailScreen(binding: ItemListBookBinding, item: Book)
+    fun navigateToBookDetailScreen(binding: ItemListBookBinding, item: com.example.books.core.model.Book)
   }
 
   class ViewHolder(val binding: ItemListBookBinding) : RecyclerView.ViewHolder(binding.root)
 
-  object BookDiffCallback : DiffUtil.ItemCallback<Book>() {
-    override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+  object BookDiffCallback : DiffUtil.ItemCallback<com.example.books.core.model.Book>() {
+    override fun areItemsTheSame(oldItem: com.example.books.core.model.Book, newItem: com.example.books.core.model.Book): Boolean {
       return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+    override fun areContentsTheSame(oldItem: com.example.books.core.model.Book, newItem: com.example.books.core.model.Book): Boolean {
       return true
     }
 

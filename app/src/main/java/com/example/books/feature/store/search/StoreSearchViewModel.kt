@@ -26,7 +26,7 @@ class StoreSearchViewModel @Inject constructor(
     }
 
   val screenState: StateFlow<StoreSearchScreenState>
-  val searchFlow: Flow<PagingData<BookCover>>
+  val searchFlow: Flow<PagingData<com.example.books.core.model.BookCover>>
 
   init {
     screenState = MutableStateFlow<StoreSearchScreenState>(StoreSearchScreenState.Init)

@@ -2,13 +2,11 @@ package com.example.books.feature.store.search
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.*
 import androidx.core.view.*
 import androidx.fragment.*
 import androidx.fragment.app.*
 import androidx.paging.*
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.books.R
 import com.example.books.base.exception.NonInflatedBindingException
@@ -16,7 +14,6 @@ import com.example.books.core.model.BookCover
 import com.example.books.databinding.*
 import com.example.books.feature.book.BookFragment
 import com.example.books.feature.common.BaseFragment
-import com.example.books.feature.common.base.fragment.navigateToBookDetailScreen
 import com.example.books.feature.store.*
 import com.google.android.material.transition.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +101,7 @@ class StoreSearchFragment : BaseFragment(),
     }
   }
 
-  override fun navigateToBookDetailScreen(view: View, item: BookCover) {
+  override fun navigateToBookDetailScreen(view: View, item: com.example.books.core.model.BookCover) {
     if (isKeyboardVisible) {
       hideKeyboard(binding.queryInputEditTxt)
     }

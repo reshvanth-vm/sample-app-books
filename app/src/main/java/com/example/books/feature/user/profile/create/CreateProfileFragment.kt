@@ -2,7 +2,6 @@ package com.example.books.feature.user.profile.create
 
 import android.os.Bundle
 import android.text.*
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -10,18 +9,15 @@ import androidx.core.view.*
 import androidx.core.widget.*
 import androidx.fragment.*
 import androidx.fragment.app.*
-import androidx.paging.LOG_TAG
 import com.example.books.R
 import com.example.books.base.exception.NonInflatedBindingException
 import com.example.books.core.usecase.profile.*
 import com.example.books.databinding.FragmentCreateProfileBinding
 import com.example.books.feature.common.BaseFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CreateProfileFragment : BaseFragment(),

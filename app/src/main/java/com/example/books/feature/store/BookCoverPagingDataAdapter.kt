@@ -9,10 +9,10 @@ import com.example.books.databinding.ItemGridBookCoverBinding
 
 class BookCoverPagingDataAdapter(
   private val listener: Listener,
-) : PagingDataAdapter<BookCover, BookCoverPagingDataAdapter.ViewHolder>(DiffCallback) {
+) : PagingDataAdapter<com.example.books.core.model.BookCover, BookCoverPagingDataAdapter.ViewHolder>(DiffCallback) {
 
   fun interface Listener {
-    fun navigateToBookDetailScreen(view: View, item: BookCover)
+    fun navigateToBookDetailScreen(view: View, item: com.example.books.core.model.BookCover)
   }
 
   class ViewHolder(val binding: ItemGridBookCoverBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -36,12 +36,12 @@ class BookCoverPagingDataAdapter(
       .let(::ViewHolder)
   }
 
-  private object DiffCallback : DiffUtil.ItemCallback<BookCover>() {
-    override fun areItemsTheSame(oldItem: BookCover, newItem: BookCover): Boolean {
+  private object DiffCallback : DiffUtil.ItemCallback<com.example.books.core.model.BookCover>() {
+    override fun areItemsTheSame(oldItem: com.example.books.core.model.BookCover, newItem: com.example.books.core.model.BookCover): Boolean {
       return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: BookCover, newItem: BookCover): Boolean {
+    override fun areContentsTheSame(oldItem: com.example.books.core.model.BookCover, newItem: com.example.books.core.model.BookCover): Boolean {
       return true
     }
 

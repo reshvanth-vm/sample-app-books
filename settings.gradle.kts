@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -19,7 +20,18 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Sample Books"
+rootProject.name = "books"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
-//include(":core")
-//include(":core:datastore")
+include(":core")
+include(":feature")
+include(":core:data")
+include(":core:database")
+include(":core:datastore")
+include(":common")
+include(":common:core")
+include(":common:feature")
+include(":core:model")
+include(":core:usecase")
+include(":core:domain")

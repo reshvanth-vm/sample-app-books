@@ -1,23 +1,24 @@
 [versions]
-agp = "8.3.0-alpha13"
+agp = "8.3.0-alpha16"
 coil = "2.5.0"
 fragmentKtx = "1.6.2"
 kotlin = "1.9.20"
-coreKtx = "1.13.0-alpha01"
+coreKtx = "1.13.0-alpha02"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.7.0-alpha03"
+kotlinxCoroutinesCore = "1.8.0-RC"
 kotlinxDatetime = "0.4.1"
 material3 = "1.11.0-rc01"
 paging = "3.3.0-alpha02"
-room = "2.6.0"
+room = "2.6.1"
 ksp = "1.9.20-1.0.14"
 dagger = "2.48.1"
 protobuf = "3.25.0"
 protobufPlugin = "0.9.4"
 #androidxDataStore = "1.1.0-alpha06"
-androidxDataStore = "1.1.0-alpha06"
+androidxDataStore = "1.1.0-alpha07"
 jetbrainsKotlinJvm = "1.9.20"
 
 [libraries]
@@ -26,7 +27,6 @@ androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
-androidx-room-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
@@ -37,6 +37,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material3" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
@@ -47,12 +48,25 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 
+
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
+# app plugins
+books-feature-android = { id = "app.feature.android", version = "unspecified" }
+books-core-android = { id = "app.core.android", version = "unspecified" }
+books-android-application = { id = "app.android.application", version = "unspecified" }
+books-android-library = { id = "app.android.library", version = "unspecified" }
+books-android-hilt = { id = "app.android.hilt", version = "unspecified" }
+books-android-room = { id = "app.android.room", version = "unspecified" }
+books-jvm-library = { id = "app.jvm.library", version = "unspecified" }

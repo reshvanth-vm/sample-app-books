@@ -2,13 +2,11 @@ package com.example.books
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.Insets
 import androidx.core.view.*
-import androidx.core.view.insets.systemBarInsets
 import androidx.fragment.app.*
 import androidx.lifecycle.*
 import com.example.books.base.exception.NonInflatedBindingException
@@ -20,8 +18,8 @@ import com.example.books.feature.user.books.collection.CollectionsFragment
 import com.example.books.feature.user.login.LoginFragment
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -70,32 +68,22 @@ class MainActivity : AppCompatActivity(),
 
     lifecycleScope.launch {
       repeatOnLifecycle(Lifecycle.State.CREATED) {
-        launch(Dispatchers.IO) {
-          while (true) {
-            val fragments = withContext(Dispatchers.Main) { supportFragmentManager.fragments }
-            Log.e(TAG, "$fragments")
-            delay(3000)
+        viewModel.isUserLoggedInFlow.collectLatest { isLoggedIn ->
+          if (isFirstAppCreation.not() && skipped.not()) {
+            skipped = true
+            return@collectLatest
           }
-        }
 
-        launch {
-          viewModel.isUserLoggedInFlow.collectLatest { isLoggedIn ->
-            if (isFirstAppCreation.not() && skipped.not()) {
-              skipped = true
-              return@collectLatest
-            }
+          binding.navView.isVisible = isLoggedIn
 
-            binding.navView.isVisible = isLoggedIn
+          supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            supportFragmentManager.fragments.forEach(::remove)
 
-            supportFragmentManager.commit {
-              setReorderingAllowed(true)
-              supportFragmentManager.fragments.forEach(::remove)
-
-              if (isLoggedIn) {
-                add(R.id.frag_container_view, StoreFragment(), StoreFragment.TAG)
-              } else {
-                add(R.id.frag_container_view, LoginFragment(), LoginFragment.TAG)
-              }
+            if (isLoggedIn) {
+              add(R.id.frag_container_view, StoreFragment(), StoreFragment.TAG)
+            } else {
+              add(R.id.frag_container_view, LoginFragment(), LoginFragment.TAG)
             }
           }
         }
@@ -115,8 +103,6 @@ class MainActivity : AppCompatActivity(),
   }
 
   override fun onBackStackChanged() {
-    Log.e(TAG, "onBackStackChanged ${supportFragmentManager.fragments}")
-
     val navView = binding.navView
 
 //    val toggleNavViewVisibility = isShowingAnyTopLvlDest != navView.isVisible

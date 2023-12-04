@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookmarksViewModel @Inject constructor(
-  private val currentUserBookmarksFlow: CurrentUserBookmarksFlow,
+  private val currentUserBookmarksFlow: com.example.books.core.domain.bookmarks.CurrentUserBookmarksFlow,
 ) : UserBookListViewModel() {
 
-  override fun getBooksFlow(config: PagingConfig): Flow<PagingData<Book>> {
+  override fun getBooksFlow(config: PagingConfig): Flow<PagingData<com.example.books.core.model.Book>> {
     return currentUserBookmarksFlow(config)
   }
 

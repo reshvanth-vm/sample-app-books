@@ -1,8 +1,7 @@
 package com.example.books
 
-import androidx.lifecycle.*
-import com.example.books.core.common.Dispatcher
-import com.example.books.core.common.coroutine.AppDispatchers
+import androidx.lifecycle.ViewModel
+import com.example.books.common.core.coroutine.*
 import com.example.books.core.domain.profile.GetCurrentUser
 import com.example.books.core.usecase.profile.SignInUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +14,8 @@ class MainViewModel @Inject constructor(
   userProvider: GetCurrentUser,
   signInUser: SignInUser,
   @Dispatcher(AppDispatchers.IO) ioDispatcher: CoroutineDispatcher,
-) : ViewModel(), SignInUser by signInUser {
+) : ViewModel(),
+    SignInUser by signInUser {
 
   val isUserLoggedInFlow = userProvider
     .flow()

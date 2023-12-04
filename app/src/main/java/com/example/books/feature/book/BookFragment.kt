@@ -1,27 +1,22 @@
 package com.example.books.feature.book
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.ViewGroup.MarginLayoutParams
-import androidx.core.content.contentValuesOf
 import androidx.core.os.bundleOf
 import androidx.core.view.*
 import androidx.core.view.insets.systemBarInsets
-import androidx.fragment.app.*
+import androidx.fragment.app.viewModels
 import androidx.fragment.launchInLifecycleRepeatingScope
 import com.example.books.R
 import com.example.books.base.exception.NonInflatedBindingException
 import com.example.books.databinding.FragmentBookBinding
-import com.example.books.databinding.FragmentStoreBinding
 import com.example.books.feature.common.BaseFragment
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlin.math.abs
 

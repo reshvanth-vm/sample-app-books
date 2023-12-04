@@ -3,17 +3,15 @@ package com.example.books.feature.user.books.common
 import androidx.lifecycle.*
 import androidx.paging.*
 import com.example.books.core.model.Book
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 abstract class UserBookListViewModel : ViewModel() {
 
-  val booksFlow: Flow<PagingData<Book>> by lazy {
+  val booksFlow: Flow<PagingData<com.example.books.core.model.Book>> by lazy {
     getBooksFlow(config).cachedIn(viewModelScope)
   }
 
-  protected abstract fun getBooksFlow(config: PagingConfig): Flow<PagingData<Book>>
+  protected abstract fun getBooksFlow(config: PagingConfig): Flow<PagingData<com.example.books.core.model.Book>>
 
   companion object {
     private val config = PagingConfig(

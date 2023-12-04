@@ -1,17 +1,14 @@
 package com.example.books.feature.user.profile.create
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.books.core.common.Dispatcher
-import com.example.books.core.common.coroutine.AppDispatchers
+import com.example.books.common.core.*
+import com.example.books.common.core.coroutine.*
 import com.example.books.core.domain.profile.NewUserAccountValidator
 import com.example.books.core.model.NewUserCredentials
 import com.example.books.core.usecase.profile.*
-import com.example.books.core.usecase.util.GlobalScopeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import java.time.temporal.TemporalAccessor
 import javax.inject.Inject
 
 private val AcctCreationErrorState.isClean
@@ -83,7 +80,7 @@ class CreateProfileViewModel @Inject constructor(
           when (result) {
             is NewUserAccountValidator.InvalidReason.Email -> copy(email = result.reason)
             is NewUserAccountValidator.InvalidReason.Pwd   -> copy(pwd = result.reason)
-            null                                           -> if (confirmPwd == this@CreateProfileViewModel.pwd) {
+            null                                                                                 -> if (confirmPwd == this@CreateProfileViewModel.pwd) {
               AcctCreationErrorState.Init
             } else {
               copy(confirmPwdNotMatched = true)

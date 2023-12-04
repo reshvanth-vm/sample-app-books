@@ -68,7 +68,7 @@ abstract class UserBookListFragment : TopLevelDestinationFragment(),
     loadingMoreCircularProgressIndicator.isVisible = isLoadingMore
   }
 
-  final override fun navigateToBookDetailScreen(binding: ItemListBookBinding, item: Book) {
+  final override fun navigateToBookDetailScreen(binding: ItemListBookBinding, item: com.example.books.core.model.Book) {
     navigateToBookDetailScreen(binding.root, item.id)
   }
 

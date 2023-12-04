@@ -1,6 +1,5 @@
 package com.example.books.feature.store
 
-import androidx.core.content.contentValuesOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
@@ -19,7 +18,7 @@ class StoreViewModel @Inject constructor(
   userStoreBooksPagingDataFlow: UserStoreBooksPagingDataFlow,
 ) : ViewModel() {
 
-  val books: Flow<PagingData<BookCover>> = storeBooksPagingDataFlow
+  val books: Flow<PagingData<com.example.books.core.model.BookCover>> = storeBooksPagingDataFlow
     .storeBookCoversPagingDataFlow(pagingConfig)
     .cachedIn(viewModelScope)
 

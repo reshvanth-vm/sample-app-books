@@ -10,7 +10,6 @@ import androidx.fragment.app.*
 import androidx.fragment.launchInLifecycleRepeatingScope
 import com.example.books.R
 import com.example.books.base.exception.NonInflatedBindingException
-import com.example.books.core.model.StoreBook
 import com.example.books.databinding.FragmentStoreBinding
 import com.example.books.feature.common.TopLevelDestinationFragment
 import com.example.books.feature.common.base.fragment.navigateToBookDetailScreen
@@ -81,7 +80,7 @@ class StoreFragment : TopLevelDestinationFragment(),
     return true
   }
 
-  override fun navigateToBookDetailScreen(view: View, item: StoreBook) {
+  override fun navigateToBookDetailScreen(view: View, item: com.example.books.core.model.StoreBook) {
     navigateToBookDetailScreen(view, item.id)
   }
 

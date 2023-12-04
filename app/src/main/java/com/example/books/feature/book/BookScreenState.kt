@@ -3,12 +3,12 @@ package com.example.books.feature.book
 import com.example.books.core.model.DetailedBook
 
 data class BookScreenState(
-  private val dBook: DetailedBook,
+  private val dBook: com.example.books.core.model.DetailedBook,
   val isBookmarked: Boolean,
   val isCollected: Boolean,
-) : DetailedBook by dBook {
+) : com.example.books.core.model.DetailedBook by dBook {
 
-  constructor(dBook: DetailedBook) : this(dBook, false, false)
+  constructor(dBook: com.example.books.core.model.DetailedBook) : this(dBook, false, false)
 
   sealed interface Action {
     //    data object Collect : Action

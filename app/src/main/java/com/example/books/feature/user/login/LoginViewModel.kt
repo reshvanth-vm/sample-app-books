@@ -1,8 +1,7 @@
 package com.example.books.feature.user.login
 
 import androidx.lifecycle.*
-import com.example.books.core.common.Dispatcher
-import com.example.books.core.common.coroutine.AppDispatchers
+import com.example.books.common.core.coroutine.*
 import com.example.books.core.usecase.profile.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
