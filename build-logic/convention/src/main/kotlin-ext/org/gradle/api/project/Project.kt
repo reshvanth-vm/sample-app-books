@@ -12,7 +12,7 @@ private object C {
   val javaVersion = JavaVersion.VERSION_11
 }
 
-internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *>) {
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
   commonExtension.apply {
     compileSdk = 34
 
